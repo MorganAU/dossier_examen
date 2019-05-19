@@ -3,7 +3,7 @@
 		session_start();
 	}
 
-	var_dump($_SESSION);
+	var_dump(session_id());
 	if (isset($_SESSION['connect']) && isset($_SESSION['admin'])) {
 		if ($_SESSION['connect'] == 1 && $_SESSION['admin'] == 0) {
 			include 'logged_post_comment.php';

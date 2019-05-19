@@ -90,7 +90,7 @@
 			
 			case 'registration_sucess':
 				echo 'Inscription réussite, veuillez vous connecter !';
-				header( "refresh:3;url=connect.php" );
+				header( "refresh:3;url=not_logged_switch.php" );
 				break;
 			
 			case 'error_between_pass':

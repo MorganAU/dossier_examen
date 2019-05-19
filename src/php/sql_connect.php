@@ -18,29 +18,6 @@
 		return $pdo;
 	}
 
-	function getAdminSettings() 
-	{
-		include_once 'objects/customer.php';
-		$config = array();
-
-		$pdo = databaseConnect();
-
-		$admin = new Customer();
-
-		$admin->readAdmin();
-
-		$config = [
-				'mail' => $admin->getMail(),
-				'pass' => $admin->getPass()
-			];
-
-		if(!empty($config)) {
-			return $config;
-		} else {
-			return 0;
-		}
-	}
-
 	function existingMail()
 	{
 		require_once 'config.php';

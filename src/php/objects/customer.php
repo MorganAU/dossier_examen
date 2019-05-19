@@ -5,6 +5,7 @@
 		private $nickname;
 		private $mail;
 		private $pass;
+		private $status;
  
 		public function __construct() 
 		{
@@ -26,7 +27,6 @@
 
 			$q->execute();
 			
-			var_dump($sNickname);die();
 			if ($q->fetch() != false) {
 				logoutLog('database_error');
 			} else {
@@ -69,23 +69,48 @@
 			}
 		}
 
+		public function readUserStatus($sMail)
+		{
+			$pdo = databaseConnect();
+			$metaKey = 'mod582_user_level';
 
-		public function readAdmin() 
+			$q = $pdo->prepare('SELECT meta_value
+								FROM mod582_usermeta AS meta
+								INNER JOIN mod582_users AS user
+								ON user.ID = meta.user_id
+								WHERE user_email = :mail
+								AND meta.meta_key = :metaKey');
+
+			$q->bindParam(':mail', $sMail);
+			$q->bindParam(':metaKey', $metaKey);
+
+			if($q->execute() != false) {
+				while ($row = $q->fetch()) {
+					$this->setStatus($row['meta_value']);
+				}	
+			}
+		}
+
+
+		public function readAdmin($sMail) 
 		{
 			$pdo = databaseConnect();
 			
-			$q = 'SELECT * FROM mod582_registered_add WHERE isA = 1';
+			$q = 'SELECT * FROM mod582_users where user_email = "'. $sMail .'"';
 
 			$result = $pdo->query($q);
 			if($result->fetch() != false) {
 				foreach  ($pdo->query($q) as $row) {
-					$this->mail = $row['mail'];
-					$this->pass = $row['pass'];
+					$this->mail = $row['user_nicename'];
+					$this->pass = $row['user_pass'];
+					$this->status = $row['user_status'];
 				}
 			}
 
-
+			var_dump($this);
 		}
+ 
+
  
 		public function updateCustomerSettings($sOldMail, $sLastname, $sName, $sAddress, $nCp, $sCity, $sMail) 
 		{
@@ -142,6 +167,11 @@
 			$this->pass = $sPass;
 		}
 
+		public function setStatus($nStatus)
+		{
+			$this->status = $nStatus;
+		}
+
 		
 		/************************************************************
 		*****					ACCESSORS						*****
@@ -166,8 +196,28 @@
 			return $this->pass;
 		}
 
+		public function getStatus()
+		{
+			return $this->status;
+		}
 
 
+		public function getAdminPassWP()
+		{
+			$pdo = databaseConnect();
+			
+			$q = 'SELECT * FROM mod582_users ';
+
+			$result = $pdo->query($q);
+			if($result->fetch() != false) {
+				foreach  ($pdo->query($q) as $row) {
+					$this->mail = $row['user_nicename'];
+					$this->pass = $row['user_pass'];
+				}
+			}
+
+			var_dump($this);
+		}
  
  
 	}

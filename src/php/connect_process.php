@@ -12,14 +12,22 @@
 		
 		$sMail = $_SESSION['mail'] = $_POST['mail'];
 		$sPassword = $_SESSION['password'] = $_POST['password'];
-		$aRecupAdmin = getAdminSettings();
-		var_dump($aRecupAdmin);
+
+		//Vérifie si ce mail fait parti d'un compte admin
+		$user = new Customer();
+
+		$user->setMail($sMail); 
+		$bIsAdmin = $user->readUserStatus($sMail);
+
+
+
+
+		var_dump($user);die();
 		if (empty($_POST['mail']) || empty($_POST['password'])) {
 			$_SESSION['connect'] = 0;
 			logoutLog('empty_var');
 		} else {
 			if (existingMail()) {
-				$user = new Customer();
 				$user->readUserByMail($sMail);
 
 				$nickNameRecup = $_SESSION['nickname'] = $user->getNickname();
