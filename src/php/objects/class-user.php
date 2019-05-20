@@ -1,4 +1,6 @@
 <?php
+	include_once 'sql_connect.php';
+
 	class User 
 	{ 
 		private $id;
@@ -108,8 +110,6 @@
 			}
 		}
  
-
- 
 		public function updateCustomerSettings($sOldMail, $sLastname, $sName, $sAddress, $nCp, $sCity, $sMail) 
 		{
  			$pdo = databaseConnect();
@@ -162,7 +162,21 @@
 				}
 			}
 		}
- 
+ 		
+		public function getAllUsers()
+		{
+			$pdo = databaseConnect();
+						
+			$q = $pdo->prepare('SELECT * FROM mod582_registered_add');
+
+			$aObjects = array();
+
+			if($q->execute() != false) {
+				$aObjects = $q->fetchAll();	
+			}
+			return $aObjects; 
+		}
+
 		/************************************************************
 		*****					MUTATORS						*****
 		************************************************************/
@@ -238,6 +252,8 @@
 
 			var_dump($this);
 		}
+
+
  
  
 	}

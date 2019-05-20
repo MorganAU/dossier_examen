@@ -20,7 +20,7 @@
 		} else {
 			//Vérifie si ce mail fait parti d'un compte admin
 			// Instanciation d'un objet Customer
-			$user = new Customer();
+			$user = new User();
 
 			// On récupère son status
 			$user->setMail($sMail); 
