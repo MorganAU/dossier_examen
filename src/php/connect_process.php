@@ -1,55 +1,72 @@
 <?php 
+	include 'sql_connect.php';
+	include 'log.php';
+	include 'objects/class-user.php';
+	include 'objects/class-phpass.php';
 
-	if (!isset($_SESSION['connect']) || $_SESSION['connect'] == 0){
-		include 'sql_connect.php';
-		include 'log.php';
-		include 'objects/customer.php';
 
-		if (!session_id()) {
-			session_start();
-		}
+	if (!session_id()) {
+		session_start();
+	}
 
+	if (!isset($_SESSION['connect']) || $_SESSION['connect'] == 0) {
 		
-		$sMail = $_SESSION['mail'] = $_POST['mail'];
-		$sPassword = $_SESSION['password'] = $_POST['password'];
+		$sMail = $_POST['mail'];
+		$sPassword = $_POST['password'];
 
-		//Vérifie si ce mail fait parti d'un compte admin
-		$user = new Customer();
-
-		$user->setMail($sMail); 
-		$bIsAdmin = $user->readUserStatus($sMail);
-
-
-
-
-		var_dump($user);die();
 		if (empty($_POST['mail']) || empty($_POST['password'])) {
-			$_SESSION['connect'] = 0;
+			// Si un des champs est vide on l'affiche à l'utilisateur
 			logoutLog('empty_var');
 		} else {
-			if (existingMail()) {
-				$user->readUserByMail($sMail);
+			//Vérifie si ce mail fait parti d'un compte admin
+			// Instanciation d'un objet Customer
+			$user = new Customer();
 
-				$nickNameRecup = $_SESSION['nickname'] = $user->getNickname();
-				$mailRecup = $user->getMail();
-				$passRecup = $user->getPass();
+			// On récupère son status
+			$user->setMail($sMail); 
+			$user->readUserStatus($sMail);
+				
+			// Si son statut est égal à 10, c'est un admnin
+			if ($user->getStatus() == 10) {
+				// On récupère les infos
+				$user->readAdmin($sMail);
+				$sMailRecup = $user->getMail();
+				$sPassRecup = $user->getPass();
 
-				if ($mailRecup == $sMail && password_verify($sPassword, $passRecup)) {
+				// On instancie un objet PasswordHash d'une classe native à WP
+				$wp_hasher = new PasswordHash(8, TRUE);
+
+				// On utilise sa méthode Checkout() pour vérifier la concordance des deux mots de passe
+				if ($sMail == $sMailRecup && $wp_hasher->CheckPassword($sPassword, $sPassRecup)) {
 					$_SESSION['connect'] = 1;
-					if ($mailRecup == $aRecupAdmin['mail'] && password_verify($sPassword, $aRecupAdmin['pass'])) {
-						$_SESSION['admin'] = 1;
-						loginLog('welcome_admin');
-					} else {
-						$_SESSION['admin'] = 0;
-						loginLog('welcome_message');
-					}
+					$_SESSION['admin'] = 1;
+
+					// Si tout est bon l'admin peut se connecter
+					loginLog('welcome_admin');
 				} else {
-					$_SESSION['connect'] = 0;
 					logoutLog('error_connect');
 				}
-			} else {
-				$_SESSION['connect'] = 0;
-				logoutLog('wrong_mail');
+			} else if ($user->getStatus() != 10) {
+				// On fait la même chose pour un utilisteur classique
+				$user->readUserByMail($sMail);
+
+				if ($user->getId() != null) {
+					$sMailRecup = $user->getMail();
+					$sPassRecup = $user->getPass();
+
+					$wp_hasher = new PasswordHash(8, TRUE);
+
+					if ($sMail == $sMailRecup && $wp_hasher->CheckPassword($sPassword, $sPassRecup)) {
+						$_SESSION['connect'] = 1;
+						$_SESSION['admin'] = 0;
+						$_SESSION['nickname'] = $user->getNickname();
+						loginLog('welcome_message');
+					} else {
+						logoutLog('error_connect');
+					}
+				} else {
+					logoutLog('wrong_mail');
+				}
 			}
 		}
 	} else {

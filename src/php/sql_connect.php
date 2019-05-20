@@ -18,31 +18,6 @@
 		return $pdo;
 	}
 
-	function existingMail()
-	{
-		require_once 'config.php';
-		include_once 'objects/customer.php';
-		
-		$sUserMail = $_SESSION['mail'];
-		$config = array();
-
-		$existingCustomer = new Customer();
-
-		$existingCustomer->readUserByMail($sUserMail);
-
-		if ($existingCustomer->getMail() != NULL) {
-			$config = [
-				'mail' => $existingCustomer->getMail()
-			];
-		}
-		if(!empty($config)) {
-			return 1;
-		} else {
-			return 0;
-		}
-
-	}
-
 	function existingNickname()
 	{
 		require_once 'config.php';

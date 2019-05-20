@@ -1,33 +1,42 @@
 <?php 
 	include 'sql_connect.php';
 	include 'log.php';
+	include 'objects/class-user.php';
 
 	if (session_id()) {
 		session_start();
 	}
 
-	$_SESSION['nickname'] = $_POST['nickname'];
-	$_SESSION['mail'] = strtolower($_POST['mail']);
-	$sPassword = $_SESSION['password'] = $_POST['password'];
-	$sPasswordForVerify = $_SESSION['passwordForConfirm'] = $_POST['passwordForConfirm'];
+	$sNickname = $_POST['nickname'];
+	$sMail = $_POST['mail'];
+	$sPassword = $_POST['password'];
+	var_dump($_POST);
+	$newUser = new User();
 
-	isset($_SESSION['nickname']) ? $_SESSION['nickname'] = $_POST['nickname'] : $_SESSION['nickname'] = "";
-	isset($_SESSION['mail']) ? $_SESSION['mail'] = $_POST['mail'] : $_SESSION['mail'] = "";
+	$newUser->setNickname($sNickname);
+	$newUser->setMail($sMail);
+
+	$sPassword = $_POST['password'];
+	$sPasswordForVerify = $_POST['passwordForConfirm'];
+
 	isset($_SESSION['password']) ? $_SESSION['password'] = $_POST['password'] : $_SESSION['password'] = "";
 	isset($_SESSION['passwordForConfirm']) ? $_SESSION['passwordForConfirm'] = $_POST['passwordForConfirm'] : $_SESSION['name'] = "";
 
-	if (empty($_POST['nickname']) || empty($_POST['mail']) || empty($_POST['password']) || empty($_POST['passwordForConfirm'])) {
-		logoutLog('empty_registering_var');
-	} else if ($sPassword != $sPasswordForVerify) {
-		logoutLog('error_passwords');
-	} else if (!existingMail()) {
-		if(!existingNickname()) {
-			addUser();
-		} else {
-			logoutLog('already_existing_nickname');
-		}
-	} else {
-		logoutLog('already_existing_mail');
-	}
+	$newUser->readUserByMail($sMail);
 
-	?>
+	if ($newUser->getNickname() == null || $newUser->getMail() == null || empty($_POST['password']) || empty($_POST['passwordForConfirm'])) {
+		logoutLog('empty_registering_var');
+	} else {
+		var_dump($newUser);
+		if ($sPassword != $sPasswordForVerify) {
+			logoutLog('error_passwords');
+		} else if ($newUser->getId() == null) {
+			if($newUser->freeNickname($sNickname) == null) {
+				$newUser->createUser($newUser->getNickname(), $newUser->getMail(), $sPassword);
+			} else {
+				logoutLog('already_existing_nickname');
+			}
+		} else {
+			logoutLog('already_existing_mail');
+		}
+	}
