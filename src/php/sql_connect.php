@@ -2,7 +2,7 @@
 
 	function databaseConnect() 
 	{
-		include_once 'config.php';
+		include_once ^'wp-config.php';
 
 		$dsn = 'mysql:host='. DB_HOST . ';dbname=' . DB_NAME . ';port=3306;charset=' . DB_CHARSET;
 		try {

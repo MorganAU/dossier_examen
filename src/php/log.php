@@ -113,9 +113,9 @@
 				header( "refresh:3;url=index.php" );
 				break;
 			
-			case 'delete_profile':
-				echo 'Votre compte à bien été supprimé, désolé de vous voir partir :(';
-				header( "refresh:3;url=index.php" );
+			case 'delete_success':
+				echo '<h3>Votre compte à bien été supprimé, nous sommes tristes de vous voir partir :(</h3>';
+				header( "refresh:3;url=not_logged_switch.php" );
 				break;
 
 			default:
@@ -138,8 +138,13 @@
 				break;
 			
 			case 'welcome_admin':
-				echo '<h3>Vous êtes connecté sur le compte Administrateur';
+				echo '<h3>Vous êtes connecté sur le compte Administrateur</h3>';
 				header( "refresh:3;url=not_logged_switch.php" );
+				break;
+			
+			case 'update_sucess':
+				echo '<h3>Informations mises à jour</h3>';
+				header( "refresh:3;url=update_user.php" );
 				break;
 			
 			default:

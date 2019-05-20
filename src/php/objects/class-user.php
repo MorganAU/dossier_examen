@@ -14,10 +14,14 @@
  			$this->status = 0;
 		}
  
+		/*********************************************************************
+		*								CREATE 								 *
+		*********************************************************************/
+
 		public function createUser($sNickname, $sMail, $sPass) 
 		{
 			$pdo = databaseConnect();
-			$q = $pdo->prepare('INSERT INTO mod582_registered_add (nickname, mail, pass)
+			$q = $pdo->prepare('INSERT INTO mod582_user_coment_add (nickname, mail, pass)
 				  				VALUES (:nickname, :mail, :pass)');
 
 			$sPassHash = password_hash($sPass, PASSWORD_DEFAULT);
@@ -26,8 +30,7 @@
 			$q->bindParam(':pass', $sPassHash);
 
 			$q->execute();
-			var_dump($sPassHash);
-			die();
+			
 			if ($q->fetch() != false) {
 				logoutLog('database_error');
 			} else {
@@ -35,12 +38,16 @@
 			}
  
 		}
+
+		/*********************************************************************
+		*								READ 								 *
+		*********************************************************************/
  
 		public function readUserByMail($sMail) 
 		{
 			$pdo = databaseConnect();
 						
-			$q = $pdo->prepare('SELECT * FROM mod582_registered_add WHERE mail = :mail');
+			$q = $pdo->prepare('SELECT * FROM mod582_user_coment_add WHERE mail = :mail');
 
 			$q->bindParam(':mail', $sMail);
 
@@ -58,7 +65,7 @@
 		{
 			$pdo = databaseConnect();
 						
-			$q = $pdo->prepare('SELECT registered_id FROM mod582_registered_add WHERE nickname = :nickname');
+			$q = $pdo->prepare('SELECT registered_id FROM mod582_user_coment_add WHERE nickname = :nickname');
 
 			$q->bindParam(':nickname', $sNickname);
 			$id = null;
@@ -68,7 +75,6 @@
 				}	
 			}
 			return $id; 
-
 		}
 
 		public function readUserStatus($sMail)
@@ -109,65 +115,12 @@
 				}	
 			}
 		}
- 
-		public function updateCustomerSettings($sOldMail, $sLastname, $sName, $sAddress, $nCp, $sCity, $sMail) 
-		{
- 			$pdo = databaseConnect();
-			
-			$q = 'UPDATE customer 
-				  SET customer_lastname = "'. $sLastname . '",
-					  customer_name = "'. $sName . '",
-					  customer_address = "'. $sAddress . '",
-					  customer_cp = "'. $nCp . '",
-					  customer_city = "'. $sCity . '",
-					  customer_mail = "'. $sMail . '"
-				  WHERE customer_mail = "'. $sOldMail . '"';
-			$result = $pdo->exec($q);
 
-		}
- 
-		public function updateCustomerPassword($sMail, $sNewPassword) 
-		{
- 			$pdo = databaseConnect();
-			
-			$q = 'UPDATE customer 
-				  SET customer_pass = "'. $sNewPassword . '"
-				  WHERE customer_mail = "'. $sMail . '"';
-			$result = $pdo->exec($q);
-
-		}
- 
-		public function deleteCustomer($sMail) 
-		{
- 			$pdo = databaseConnect();
-			
-			$q = 'DELETE FROM customer 
-				  WHERE customer_mail = "'. $sMail . '"';
-			$result = $pdo->exec($q);
-		}
-
-		public function readUserByNickname($sNickname) 
-		{
-			$pdo = databaseConnect();
-			
-			$q = 'SELECT * FROM mod582_registered_add WHERE nickname = "'. $sNickname . '"';
-
-			$result = $pdo->query($q);
-			if($result->fetch() != false) {
-					foreach  ($pdo->query($q) as $row) {
-					$this->id = $row['registered_id'];
-					$this->nickname = $row['nickname'];
-					$this->mail = $row['mail'];
-					$this->pass = $row['pass'] ;
-				}
-			}
-		}
- 		
-		public function getAllUsers()
+ 		public function getAllUsers()
 		{
 			$pdo = databaseConnect();
 						
-			$q = $pdo->prepare('SELECT * FROM mod582_registered_add');
+			$q = $pdo->prepare('SELECT * FROM mod582_user_coment_add');
 
 			$aObjects = array();
 
@@ -176,6 +129,84 @@
 			}
 			return $aObjects; 
 		}
+
+
+		/*********************************************************************
+		*								UPDATE 								 *
+		*********************************************************************/
+
+		public function updateUser($sNickname, $sMail, $sOldMail) 
+		{
+ 			$pdo = databaseConnect();
+			
+			$q = $pdo->prepare('UPDATE mod582_user_coment_add
+								SET nickname = :nickname,
+									mail = :mail,
+									pass = :pass
+								WHERE mail = :oldMail');
+
+			$sPassHash = password_hash($sPass, PASSWORD_DEFAULT);
+			$q->bindParam(':nickname', $sNickname);
+			$q->bindParam(':mail', $sMail);
+			$q->bindParam(':pass', $sPassHash);
+			$q->bindParam(':oldMail', $sOldMail);
+
+			$q->execute();
+			
+			if ($q->fetch() != false) {
+				logoutLog('database_error');
+			} else {
+				loginLog('update_sucess');
+			}
+
+		}
+ 
+		public function updatePassUser($sMail, $sNewPassword) 
+		{
+ 			$pdo = databaseConnect();
+			
+			$q = $pdo->prepare('UPDATE mod582_user_coment_add
+								SET pass = :pass
+								WHERE mail = :mail');
+
+			$sNewPassword = password_hash($sPass, PASSWORD_DEFAULT);
+			$q->bindParam(':mail', $sMail);
+			$q->bindParam(':pass', $sNewPassword);
+
+			$q->execute();
+			
+			if ($q->fetch() != false) {
+				logoutLog('database_error');
+			} else {
+				loginLog('update_sucess');
+			}
+
+		}
+
+		/*********************************************************************
+		*								DELETE 								 *
+		*********************************************************************/
+
+		public function deleteUser($sMail) 
+		{
+ 			$pdo = databaseConnect();
+			
+			$q = $pdo->prepare('DELETE FROM mod582_user_coment_add 
+				 				WHERE mail = :mail');
+
+			$q->bindParam(':mail', $sMail);
+
+			$q->execute();
+			
+			if ($q->fetch() != false) {
+				logoutLog('database_error');
+			} else {
+				logoutLog('delete_success');
+			}
+
+		}
+
+		
 
 		/************************************************************
 		*****					MUTATORS						*****
@@ -234,27 +265,6 @@
 		{
 			return $this->status;
 		}
-
-
-		public function getAdminPassWP()
-		{
-			$pdo = databaseConnect();
-			
-			$q = 'SELECT * FROM mod582_users ';
-
-			$result = $pdo->query($q);
-			if($result->fetch() != false) {
-				foreach  ($pdo->query($q) as $row) {
-					$this->mail = $row['user_nicename'];
-					$this->pass = $row['user_pass'];
-				}
-			}
-
-			var_dump($this);
-		}
-
-
- 
  
 	}
  
