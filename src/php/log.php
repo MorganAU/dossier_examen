@@ -33,9 +33,7 @@
 	}
 
 	function logoutLog($sOption) 
-	{
-		var_dump($_SESSION);
-		
+	{		
 		if(!session_id()) {
 			session_start();
 		}

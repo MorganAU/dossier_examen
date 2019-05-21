@@ -10,7 +10,7 @@
 	$sNickname = $_POST['nickname'];
 	$sMail = $_POST['mail'];
 	$sPassword = $_POST['password'];
-	var_dump($_POST);
+
 	$newUser = new User();
 
 	$newUser->setNickname($sNickname);
@@ -19,15 +19,11 @@
 	$sPassword = $_POST['password'];
 	$sPasswordForVerify = $_POST['passwordForConfirm'];
 
-	isset($_SESSION['password']) ? $_SESSION['password'] = $_POST['password'] : $_SESSION['password'] = "";
-	isset($_SESSION['passwordForConfirm']) ? $_SESSION['passwordForConfirm'] = $_POST['passwordForConfirm'] : $_SESSION['name'] = "";
-
 	$newUser->readUserByMail($sMail);
 
 	if ($newUser->getNickname() == null || $newUser->getMail() == null || empty($_POST['password']) || empty($_POST['passwordForConfirm'])) {
 		logoutLog('empty_registering_var');
 	} else {
-		var_dump($newUser);
 		if ($sPassword != $sPasswordForVerify) {
 			logoutLog('error_passwords');
 		} else if ($newUser->getId() == null) {

@@ -73,5 +73,3 @@
 		header('Location: not_logged_switch.php');	
 	}
 
-
-	?>
