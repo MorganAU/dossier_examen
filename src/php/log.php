@@ -1,4 +1,7 @@
 <?php
+	require('./wp-blog-header.php');
+	include $_SERVER['DOCUMENT_ROOT']."/wp-content/themes/mh-magazine-lite/header.php";
+
 	function destroySession()
 	{
 		if (!empty($_SESSION['mail'])) {
@@ -39,105 +42,104 @@
 		}
 		$_SESSION['connect'] = 0;
 	
-
+		echo '<h3><div style="background-color:white">';
 		switch ($sOption) {
 			case 'disconnect':
 				echo 'Vous êtes déconnecté. À bientôt !';
-				header( "refresh:3;url=not_logged_switch.php" );
+				header( 'refresh:3;url=https://' . $_SERVER['HTTP_HOST']);
 				break;
 			
 			case 'error_connect':
 				echo 'Erreur de connexion !';
-				header( "refresh:3;url=not_logged_switch.php" );
+				header( 'refresh:3;url=' . $_SERVER['HTTP_REFERER']);
 				break;
 			
 			case 'empty_var':
 				echo 'Certains champs sont vides !';
-				header( "refresh:3;url=not_logged_switch.php" );
+				header( 'refresh:3;url=' . $_SERVER['HTTP_REFERER']);
 				break;
 			
 			case 'error_passwords':
 				echo 'Les mots de passe ne correspondent pas';
-				header( "refresh:3;url=registered_form.html" );
+				header( 'refresh:3;url=' . $_SERVER['HTTP_REFERER']);
 				break;
 
 			case 'empty_registering_var':
 				echo 'Certains champs sont vides !';
-				header( "refresh:3;url=registered_form.html" );
+				header( 'refresh:3;url=' . $_SERVER['HTTP_REFERER']);
 				break;
 			
 			case 'database_error':
 				echo 'Un problème est survenu, essayez ultèrieurement !';
-				header( "refresh:3;url=not_logged_switch.php" );
+				header( 'refresh:3;url=' . $_SERVER['HTTP_REFERER']);
 				break;
 			
 			case 'wrong_mail':
 				echo 'Cet utilisateur n\'existe pas !';
-				header( "refresh:3;url=not_logged_switch.php" );
+				header( 'refresh:3;url=' . $_SERVER['HTTP_REFERER']);
 				break;
 			
 			case 'already_existing_mail':
 				echo 'Ce mail est déjà utilisé, veuillez en choisir un autre';
-				header( "refresh:3;url=registered_form.html" );
+				header( 'refresh:3;url=' . $_SERVER['HTTP_REFERER']);
 				break;
 			
 			case 'already_existing_nickname':
 				echo 'Ce pseudo est déjà utilisé, veuillez en choisir un autre';
-				header( "refresh:3;url=registered_form.html" );
+				header( 'refresh:3;url=' . $_SERVER['HTTP_REFERER']);
 				break;
 			
 			case 'registration_sucess':
 				echo 'Inscription réussite, veuillez vous connecter !';
-				header( "refresh:3;url=not_logged_switch.php" );
+				header( 'refresh:3;url=' . $_SESSION['path']);
 				break;
 			
 			case 'error_between_pass':
 				echo 'Les mots de passe ne correspondent pas';
-				header( "refresh:3;url=registered_form.php" );
+				header( 'refresh:3;url=' . $_SESSION['path']);
 				break;
 			
-			case 'emptyVarPasswords':
-				echo 'Certains champs de mot de passe sont vides !';
-				header( "refresh:3;url=registered_form.php" );
-				break;
-			
-			case 'already existing mail update':
+			case 'already_existing_mail_update':
 				echo 'Ce mail est déjà utilisé, veuillez en choisir un autre';
 				header( "refresh:3;url=update_customer.php" );
 				break;
 			
-			case 'pass update':
+			case 'pass_update':
 				echo 'Mot de passe modifié, veuillez vous reconnecter';
 				header( "refresh:3;url=index.php" );
 				break;
 			
 			case 'delete_success':
-				echo '<h3>Votre compte à bien été supprimé, nous sommes tristes de vous voir partir :(</h3>';
-				header( "refresh:3;url=not_logged_switch.php" );
+				echo 'Votre compte à bien été supprimé, nous sommes tristes de vous voir partir :(';
+				header( 'refresh:3;url=' . $_SERVER['HTTP_REFERER']);
 				break;
 
 			default:
 				echo 'Erreur inconnu !';
-				header( "refresh:3;url=not_logged_switch.php" );
-				break;
+				header( 'refresh:3;url=https://' . $_SERVER['HTTP_HOST']);
 		}
 
+		echo '</div></h3>';
+
 		destroySession();
+		require('./wp-blog-header.php');
+		include $_SERVER['DOCUMENT_ROOT']."/wp-content/themes/mh-magazine-lite/footer.php";
 	}
 
 	function loginLog($sOption) 
 	{
 		$_SESSION['connect'] = 1;
+		echo '<h3><div style="background-color:white">';
 
 		switch ($sOption) {			
 			case 'welcome_message':
 				echo '<h3>Vous êtes connecté ' . $_SESSION['nickname'] . '</h3>';
-				header( "refresh:3;url=not_logged_switch.php" );
+				header( 'refresh:3;' . $_SESSION['path']);
 				break;
 			
 			case 'welcome_admin':
 				echo '<h3>Vous êtes connecté sur le compte Administrateur</h3>';
-				header( "refresh:3;url=not_logged_switch.php" );
+				header( 'refresh:3;url=logged_admin.php');
 				break;
 			
 			case 'update_sucess':
@@ -147,9 +149,79 @@
 			
 			default:
 				echo 'Erreur inconnu !';
-				header( "refresh:3;url=not_logged_switch.php" );
-				break;
+				header( 'refresh:3;url=https://' . $_SERVER['HTTP_HOST']);
 		}
+		echo '</div></h3>';
+
+		require('./wp-blog-header.php');
+		include $_SERVER['DOCUMENT_ROOT']."/wp-content/themes/mh-magazine-lite/footer.php";
 	}
 
+	function postLog($sOption) 
+	{
+		$_SESSION['connect'] = 1;
+		echo '<h3><div style="background-color:white">';
 
+		switch ($sOption) {			
+			case 'comment_posted':
+				echo '<h3>Commentaire ajouté</h3>';
+				header( 'refresh:3;url=' . $_SERVER['HTTP_REFERER']);
+				break;
+			
+			default:
+				echo 'Erreur inconnu !';
+				header( 'refresh:3;url=https://' . $_SERVER['HTTP_HOST']);
+		}
+		echo '</div></h3>';
+
+		require('./wp-blog-header.php');
+		include $_SERVER['DOCUMENT_ROOT']."/wp-content/themes/mh-magazine-lite/footer.php";
+	}
+
+	function registerErrorLog($sOption)
+	{
+		$_SESSION['connect'] = 0;
+	
+		echo '<h3><div style="background-color:white">';
+		switch ($sOption) {
+			case 'empty_registering_var':
+				echo 'Certains champs sont vides !';
+				header( 'refresh:3;url=' . $_SERVER['HTTP_REFERER']);
+				break;
+			
+			case 'database_error':
+				echo 'Un problème est survenu, essayez ultèrieurement !';
+				header( 'refresh:3;url=' . $_SERVER['HTTP_REFERER']);
+				break;
+			
+			case 'already_existing_mail':
+				echo 'Ce mail est déjà utilisé, veuillez en choisir un autre';
+				header( 'refresh:3;url=' . $_SERVER['HTTP_REFERER']);
+				break;
+			
+			case 'already_existing_nickname':
+				echo 'Ce pseudo est déjà utilisé, veuillez en choisir un autre';
+				header( 'refresh:3;url=' . $_SERVER['HTTP_REFERER']);
+				break;
+			
+			case 'registration_sucess':
+				echo 'Inscription réussite, veuillez vous connecter !';
+				header( 'refresh:3;url=' . $_SESSION['path']);
+				break;
+			
+			case 'error_between_pass':
+				echo 'Les mots de passe ne correspondent pas';
+				header( 'refresh:3;url=' . $_SESSION['path']);
+				break;
+			
+			default:
+				echo 'Erreur inconnu !';
+				header( 'refresh:3;url=https://' . $_SERVER['HTTP_HOST']);
+		}
+		echo '</div></h3>';
+
+		require('./wp-blog-header.php');
+		include $_SERVER['DOCUMENT_ROOT']."/wp-content/themes/mh-magazine-lite/footer.php";
+	}
+
+	

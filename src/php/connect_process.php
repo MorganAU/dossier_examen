@@ -2,12 +2,14 @@
 	include 'sql_connect.php';
 	include 'log.php';
 	include 'objects/class-user.php';
-	include 'objects/class-phpass.php';
-
-
+	include 'wp-includes/class-phpass.php';
+	
+	
 	if (!session_id()) {
 		session_start();
 	}
+
+
 
 	if (!isset($_SESSION['connect']) || $_SESSION['connect'] == 0) {
 		
@@ -70,6 +72,7 @@
 			}
 		}
 	} else {
-		header('Location: not_logged_switch.php');	
+		header('Location:' . $_SERVER['HTTP_REFERER']);	
 	}
 
+	

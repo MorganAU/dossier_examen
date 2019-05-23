@@ -1,15 +1,19 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title></title>
-</head>
-<body>
-<div class="button">
-	<center><input type="button" name="admin_button" value="Voir les derniers commentaires" onclick="self.location.href=coments_list.php"></center>
-</div>
-<div class="button">
-	<center><input type="button" name="admin_button" value="Voir les comptes utilisateurs" onclick="self.location.href='users_list.php'"></center>
+<?php 
+	require('./wp-blog-header.php');
+	include $_SERVER['DOCUMENT_ROOT']."/wp-content/themes/mh-magazine-lite/header.php";
+?>
+<h3>
+	<div style="background-color:white">
+		<div class="button">
+			<center><input type="button" name="admin_button" value="Voir les derniers commentaires" onclick="self.location.href=coments_list.php"></center>
+		</div>
+		<div class="button">
+			<center><input type="button" name="admin_button" value="Voir les comptes utilisateurs" onclick="self.location.href='users_list.php'"></center>
+		</div>
+	</div>
 
-</div>
-</body>
-</html>
+<?php 
+	if ($_SERVER['SCRIPT_NAME'] == '/logged_admin.php') {
+		require_once('./wp-blog-header.php');
+		include_once $_SERVER['DOCUMENT_ROOT']."/wp-content/themes/mh-magazine-lite/footer.php";
+	}

@@ -22,17 +22,17 @@
 	$newUser->readUserByMail($sMail);
 
 	if ($newUser->getNickname() == null || $newUser->getMail() == null || empty($_POST['password']) || empty($_POST['passwordForConfirm'])) {
-		logoutLog('empty_registering_var');
+		registerErrorLog('empty_registering_var');
 	} else {
 		if ($sPassword != $sPasswordForVerify) {
-			logoutLog('error_passwords');
+			registerErrorLog('error_between_pass');
 		} else if ($newUser->getId() == null) {
 			if($newUser->freeNickname($sNickname) == null) {
 				$newUser->createUser($newUser->getNickname(), $newUser->getMail(), $sPassword);
 			} else {
-				logoutLog('already_existing_nickname');
+				registerErrorLog('already_existing_nickname');
 			}
 		} else {
-			logoutLog('already_existing_mail');
+			registerErrorLog('already_existing_mail');
 		}
 	}
