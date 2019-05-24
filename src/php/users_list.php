@@ -1,6 +1,6 @@
 <?php
-	include_once 'logged_admin.php';
-	include_once 'objects/class-user.php';
+	include_once $_SERVER['DOCUMENT_ROOT'] . '/comment-add/logged_admin.php';
+	include_once $_SERVER['DOCUMENT_ROOT'] . '/comment-add/objects/class-user.php';
 
 	$aUsers = array();
 

@@ -14,5 +14,3 @@
 
 </html>
 
-
-<!-- Problème avec le bouton de déconnection -->

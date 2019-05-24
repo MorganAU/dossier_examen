@@ -1,5 +1,5 @@
 <?php
-	include_once 'sql_connect.php';
+	include_once $_SERVER['DOCUMENT_ROOT'] . '/comment-add/sql_connect.php';
 
 	class Comment 
 	{ 
@@ -122,11 +122,11 @@
 			}
 		}
 
- 		public function getAllUsers()
+ 		public function getAllComments()
 		{
 			$pdo = databaseConnect();
 						
-			$q = $pdo->prepare('SELECT * FROM mod582_user_coment_add');
+			$q = $pdo->prepare('SELECT * FROM mod582_comments_add');
 
 			$aObjects = array();
 

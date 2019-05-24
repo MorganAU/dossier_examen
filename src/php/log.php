@@ -1,6 +1,6 @@
 <?php
-	require('./wp-blog-header.php');
-	include $_SERVER['DOCUMENT_ROOT']."/wp-content/themes/mh-magazine-lite/header.php";
+	require $_SERVER['DOCUMENT_ROOT'] . '/wp-blog-header.php';
+	include $_SERVER['DOCUMENT_ROOT']. '/wp-content/themes/mh-magazine-lite/header.php';
 
 	function destroySession()
 	{
@@ -122,8 +122,9 @@
 		echo '</div></h3>';
 
 		destroySession();
-		require('./wp-blog-header.php');
-		include $_SERVER['DOCUMENT_ROOT']."/wp-content/themes/mh-magazine-lite/footer.php";
+		require $_SERVER['DOCUMENT_ROOT'] . '/wp-blog-header.php';
+		include $_SERVER['DOCUMENT_ROOT']. '/wp-content/themes/mh-magazine-lite/footer.php';
+
 	}
 
 	function loginLog($sOption) 
@@ -153,8 +154,8 @@
 		}
 		echo '</div></h3>';
 
-		require('./wp-blog-header.php');
-		include $_SERVER['DOCUMENT_ROOT']."/wp-content/themes/mh-magazine-lite/footer.php";
+		require $_SERVER['DOCUMENT_ROOT'] . '/wp-blog-header.php';
+		include $_SERVER['DOCUMENT_ROOT']. '/wp-content/themes/mh-magazine-lite/footer.php';
 	}
 
 	function postLog($sOption) 
@@ -174,8 +175,8 @@
 		}
 		echo '</div></h3>';
 
-		require('./wp-blog-header.php');
-		include $_SERVER['DOCUMENT_ROOT']."/wp-content/themes/mh-magazine-lite/footer.php";
+		require $_SERVER['DOCUMENT_ROOT'] . '/wp-blog-header.php';
+		include $_SERVER['DOCUMENT_ROOT']. '/wp-content/themes/mh-magazine-lite/footer.php';
 	}
 
 	function registerErrorLog($sOption)
@@ -220,8 +221,8 @@
 		}
 		echo '</div></h3>';
 
-		require('./wp-blog-header.php');
-		include $_SERVER['DOCUMENT_ROOT']."/wp-content/themes/mh-magazine-lite/footer.php";
+		require $_SERVER['DOCUMENT_ROOT'] . '/wp-blog-header.php';
+		include $_SERVER['DOCUMENT_ROOT']. '/wp-content/themes/mh-magazine-lite/footer.php';
 	}
 
 	

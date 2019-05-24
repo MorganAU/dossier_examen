@@ -1,6 +1,6 @@
 <?php 
-	require('./wp-blog-header.php');
-	include $_SERVER['DOCUMENT_ROOT']."/wp-content/themes/mh-magazine-lite/header.php";
+	require $_SERVER['DOCUMENT_ROOT'] . '/wp-blog-header.php';
+	include $_SERVER['DOCUMENT_ROOT']. '/wp-content/themes/mh-magazine-lite/header.php';
 ?>
 <h3>
 	<div style="background-color:white">
@@ -14,6 +14,6 @@
 
 <?php 
 	if ($_SERVER['SCRIPT_NAME'] == '/logged_admin.php') {
-		require_once('./wp-blog-header.php');
-		include_once $_SERVER['DOCUMENT_ROOT']."/wp-content/themes/mh-magazine-lite/footer.php";
+	require $_SERVER['DOCUMENT_ROOT'] . '/wp-blog-header.php';
+	include $_SERVER['DOCUMENT_ROOT']. '/wp-content/themes/mh-magazine-lite/footer.php';
 	}

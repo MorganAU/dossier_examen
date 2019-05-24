@@ -1,7 +1,7 @@
 <?php
 
-	require('./wp-blog-header.php');
-	include $_SERVER['DOCUMENT_ROOT']."/wp-content/themes/mh-magazine-lite/header.php";
+	require $_SERVER['DOCUMENT_ROOT'] . '/wp-blog-header.php';
+	include $_SERVER['DOCUMENT_ROOT']. '/wp-content/themes/mh-magazine-lite/header.php';
 	
 	if(!session_id()) {
 		session_start();
@@ -18,5 +18,5 @@
 		include 'not_logged_post_comment.html';
 	}
 
-	require('./wp-blog-header.php');
-	include $_SERVER['DOCUMENT_ROOT']."/wp-content/themes/mh-magazine-lite/footer.php";
+	require $_SERVER['DOCUMENT_ROOT'] . '/wp-blog-header.php';
+	include $_SERVER['DOCUMENT_ROOT']. '/wp-content/themes/mh-magazine-lite/footer.php';

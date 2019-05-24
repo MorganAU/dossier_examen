@@ -1,6 +1,6 @@
 <?php 
-	include 'objects/class-comment.php';
-	include 'log.php';
+	include $_SERVER['DOCUMENT_ROOT'] . '/comment-add/objects/class-comment.php';
+	include $_SERVER['DOCUMENT_ROOT'] . '/comment-add/log.php';
 
 	if (!session_id()) {
 		session_start();
@@ -19,6 +19,6 @@
 
 		$newComment->createComment();
 	} else {
-		echo 'non';
+		logoutLog('unknow_error');
 	}
 

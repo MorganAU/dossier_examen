@@ -1,5 +1,5 @@
 <?php
-	include_once 'sql_connect.php';
+	include_once $_SERVER['DOCUMENT_ROOT'] . '/comment-add/sql_connect.php';
 
 	class User 
 	{ 
