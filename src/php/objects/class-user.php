@@ -1,5 +1,5 @@
 <?php
-	include_once $_SERVER['DOCUMENT_ROOT'] . '/comment-add/sql_connect.php';
+	include_once 'sql_connect.php';
 
 	class User 
 	{ 
@@ -187,21 +187,19 @@
 		*								DELETE 								 *
 		*********************************************************************/
 
-		public function deleteUser($sMail) 
+		public function deleteUser($nId) 
 		{
  			$pdo = databaseConnect();
 			
 			$q = $pdo->prepare('DELETE FROM mod582_user_coment_add 
-				 				WHERE mail = :mail');
+				 				WHERE registered_id = :id');
 
-			$q->bindParam(':mail', $sMail);
+			$q->bindParam(':id', $nId);
 
 			$q->execute();
 			
 			if ($q->fetch() != false) {
 				logoutLog('database_error');
-			} else {
-				logoutLog('delete_success');
 			}
 
 		}

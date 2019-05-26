@@ -9,8 +9,14 @@
 	<form action="comment_send_process.php" method="POST">
 		<input type="textarea" placeholder="Votre commentaire" name="comment" style="width:100%" /><br />
 		<input type="submit" name="submit" value="Envoyer un commentaire" class="bouton">
+		<input type="button" id="classic_button" name="logout_button" value="Déconnexion" onclick="button()" /> 
 	</form>
-</body>	<input type="button" name="logout_button" value="Déconnexion" onclick="self.location.href='logout.php'" style="background-color:#3cb371" style="color:white; font-weight:bold"onclick> 
-
+	<script type="text/javascript">
+		function button()
+		{
+			document.location.href="https://csvillars42.fr/logout.php";
+		}
+	</script>
+</body>
 </html>
 

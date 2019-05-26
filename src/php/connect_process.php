@@ -1,8 +1,9 @@
-<?php 
-	include $_SERVER['DOCUMENT_ROOT'] . '/comment-add/sql_connect.php';
-	include $_SERVER['DOCUMENT_ROOT'] . '/comment-add/log.php';
-	include $_SERVER['DOCUMENT_ROOT'] . '/comment-add/objects/class-user.php';
-	include $_SERVER['DOCUMENT_ROOT'] . '/wp-includes/class-phpass.php';
+<?php
+	
+	include 'sql_connect.php';
+	include 'log.php';
+	include 'objects/class-user.php';
+	include 'wp-includes/class-phpass.php';
 	
 	
 	if (!session_id()) {
@@ -74,5 +75,3 @@
 	} else {
 		header('Location:' . $_SERVER['HTTP_REFERER']);	
 	}
-
-	

@@ -1,6 +1,6 @@
 <?php 
-	include $_SERVER['DOCUMENT_ROOT'] . '/comment-add/objects/class-comment.php';
-	include $_SERVER['DOCUMENT_ROOT'] . '/comment-add/log.php';
+	include 'objects/class-comment.php';
+	include 'log.php';
 
 	if (!session_id()) {
 		session_start();

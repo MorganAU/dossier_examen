@@ -1,7 +1,7 @@
 <?php 
-	include $_SERVER['DOCUMENT_ROOT'] . '/comment-add/sql_connect.php';
-	include $_SERVER['DOCUMENT_ROOT'] . '/comment-add/log.php';
-	include $_SERVER['DOCUMENT_ROOT'] . '/comment-add/objects/class-user.php';
+	include 'sql_connect.php';
+	include 'log.php';
+	include 'objects/class-user.php';
 
 	if (session_id()) {
 		session_start();

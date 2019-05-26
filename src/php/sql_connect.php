@@ -2,7 +2,7 @@
 
 	function databaseConnect() 
 	{
-		include_once $_SERVER['DOCUMENT_ROOT'] . '/comment-add/config.php';
+		include_once 'config.php';
 
 		$dsn = 'mysql:host='. DB_HOST . ';dbname=' . DB_NAME . ';port=3306;charset=' . DB_CHARSET;
 		try {

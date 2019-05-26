@@ -1,6 +1,6 @@
 <?php
-	include_once $_SERVER['DOCUMENT_ROOT'] . '/comment-add/logged_admin.php';
-	include_once $_SERVER['DOCUMENT_ROOT'] . '/comment-add/objects/class-user.php';
+	include_once 'logged_admin.php';
+	include_once 'objects/class-user.php';
 
 	$aUsers = array();
 
@@ -31,8 +31,22 @@
 					<td>' . $aUsers[$i]['registered_id'] . '</td>
 					<td>' . $aUsers[$i]['nickname'] . '</td>
 					<td>' . $aUsers[$i]['mail'] . '</td>
-					<td><input type="button" name="admin_button" value="Changer le mot de passe" onclick="button()"></td>
-					<td><input type="button" name="admin_button" value="Supprimer le profil" onclick="button()"></td>
+					
+						<td>
+							<form action="registration_process.php" method="POST">
+								<input type="submit" name="admin_button" value="Envoyer un mail" onclick="buttonDelete()">
+								<input type="hidden" name="id" value="' . $aUsers[$i]['registered_id'] . '" />
+							</form>
+						</td>
+						<td>
+							<form action="delete_user.php" method="POST">
+								<input type="hidden" name="id" value="' . $aUsers[$i]['registered_id'] . '" />
+								<input type="submit" name="admin_button" value="Supprimer">
+							</form>
+						</td>
+					</center>
+				</tr>
+
 			';
 		}
 
@@ -41,7 +55,7 @@
 	</tr>
 </table></center></div>
 <script type="text/javascript">
-	function button()
+	function buttonPass()
 	{
 		document.location.href="mail_for_pass.php";
 	}
